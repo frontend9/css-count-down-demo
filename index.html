@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>CSS单边颜色渐变倒计时圆环实现</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    .box {
+      width: 240px;
+      height: 240px;
+      position: relative;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+
+    .green-border {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 20px solid #00a853;
+      border-bottom-color: transparent;
+      transform: rotate(45deg);
+    }
+
+    .red-gradients {
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(to bottom, #00a853, #F04134);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    .inner-circle {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      position: absolute;
+      z-index: 2;
+      top: 20px;
+      left: 20px;
+      background-color: white;
+    }
+
+    .clip {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      z-index: 4;
+    }
+
+    .progress {
+      width: 100%;
+      height: 100%;
+      border: 20px solid #f3f3f3;
+      border-radius: 50%;
+      transition: all .1s;
+    }
+
+    .leftClip {
+      clip: rect(0 120px 240px 0);
+    }
+
+    .left {
+      left: 0;
+      border-right-color: transparent;
+      border-top-color: transparent;
+      transform: rotate(225deg);
+      overflow: hidden;
+    }
+
+    .rightClip {
+      clip: rect(0 240px 240px 120px);
+    }
+
+    .right {
+      right: 0;
+      border-left-color: transparent;
+      border-bottom-color: transparent;
+      transform: rotate(225deg);
+      overflow: hidden;
+    }
+  </style>
+</head>
+
+<body>
+  <div class='box'>
+    <div class='green-border'></div>
+    <div class='red-gradients'></div>
+    <div class='inner-circle'></div>
+
+    <div class='leftClip clip'>
+      <div class='left progress' id='left' style='transform:rotate(225deg)'></div>
+    </div>
+    <div class='rightClip clip'>
+      <div class='right progress' id='right' style='transform:rotate(225deg)'></div>
+    </div>
+  </div>
+</body>
+<script>
+  var percent = 0;
+  var leftDom = document.getElementById('left');
+  var rightDom = document.getElementById('right');
+  setInterval(function () {
+    if (percent > 100) {
+      /*init*/
+      rightDom.style.transform = 'rotate(225deg)';
+      leftDom.style.transform = 'rotate(225deg)';
+      percent = 0;
+    }
+    percent++;
+    if (percent <= 50) {
+      var rightRotate = 225 - (180 * percent) / 50;
+      rightDom.style.transform = 'rotate(' + rightRotate + 'deg)';
+    } else {
+      var leftRotate = 225 - (180 * (percent - 50)) / 50;
+      leftDom.style.transform = 'rotate(' + leftRotate + 'deg)';
+    }
+
+  }, 100);
+</script>
+
+</html>
